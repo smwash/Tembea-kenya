@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tembea_user/model/place.dart';
 import 'package:tembea_user/utils/constants.dart';
 
 class VisitRow extends StatelessWidget {
   const VisitRow({Key key, this.place}) : super(key: key);
-  final QueryDocumentSnapshot place;
+  final Places place;
 
   @override
   Widget build(BuildContext context) {

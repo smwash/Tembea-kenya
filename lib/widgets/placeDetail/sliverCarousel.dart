@@ -3,12 +3,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:tembea_user/model/place.dart';
 import 'package:tembea_user/utils/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SliverCarousel extends StatefulWidget {
   const SliverCarousel({Key key, @required this.place}) : super(key: key);
-  final QueryDocumentSnapshot place;
+  final Places place;
   @override
   _SliverCarouselState createState() => _SliverCarouselState();
 }
@@ -21,9 +22,9 @@ class _SliverCarouselState extends State<SliverCarousel> {
     return Column(
       children: [
         CarouselSlider.builder(
-          itemCount: widget.place.get('gallery').length,
+          itemCount: widget.place.gallery.length,
           itemBuilder: (context, index) {
-            String image = widget.place.get('gallery')[index];
+            String image = widget.place.gallery[index];
             return Container(
               height: 400.h,
               width: double.infinity,
@@ -55,7 +56,7 @@ class _SliverCarouselState extends State<SliverCarousel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            widget.place.get('gallery').length,
+            widget.place.gallery.length,
             (index) => Container(
               height: 7.h,
               width: _currentIndex == index ? 20.w : 7.w,

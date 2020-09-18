@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tembea_user/model/user.dart';
+import 'package:tembea_user/providers/placeProvider.dart';
+import 'package:tembea_user/providers/user.dart';
 import 'package:tembea_user/screens/splashScreen.dart';
 import 'package:tembea_user/widgets/bottomNav.dart';
 
@@ -19,6 +21,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         StreamProvider<UserData>.value(value: AuthService().user),
+        ChangeNotifierProvider(
+          create: (context) => PlaceProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        )
       ],
       child: MaterialApp(
         title: 'Tembea',

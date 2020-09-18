@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserData {
   String email;
   String userId;
   String photoUrl;
   String userName;
+  List savedPlaces;
   DateTime dateJoined;
 
   UserData({
@@ -11,6 +14,7 @@ class UserData {
     this.userName,
     this.photoUrl,
     this.dateJoined,
+    this.savedPlaces,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,6 +23,7 @@ class UserData {
       'userId': userId,
       'photoUrl': photoUrl,
       'userName': userName,
+      'savedPlaces': savedPlaces,
       'dateJoined': dateJoined.toIso8601String(),
     };
   }
@@ -28,5 +33,6 @@ class UserData {
         userId = doc['userId'],
         userName = doc['userName'],
         photoUrl = doc['photoUrl'],
+        savedPlaces = doc['savedPlaces'],
         dateJoined = DateTime.parse(doc['dateJoined']);
 }

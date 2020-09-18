@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:tembea_user/model/place.dart';
+
 import 'package:tembea_user/utils/constants.dart';
 
 class SecondRowUpper extends StatelessWidget {
@@ -10,7 +12,7 @@ class SecondRowUpper extends StatelessWidget {
     @required this.place,
   }) : super(key: key);
 
-  final QueryDocumentSnapshot place;
+  final Places place;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class SecondRowUpper extends StatelessWidget {
                 Icon(Icons.favorite, color: kDarkPrimaryColor),
                 SizedBox(width: 6.w),
                 Text(
-                  '${place.get('likes')} likes',
+                  '${place.likes.length} likes',
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(15),
                     fontWeight: FontWeight.w600,
@@ -58,7 +60,7 @@ class SecondRowUpper extends StatelessWidget {
                 Icon(MdiIcons.mapMarkerDistance, color: kDarkPrimaryColor),
                 SizedBox(width: 6.w),
                 Text(
-                  '${place.get('distance')}Km from Nairobi',
+                  '${place.distance}Km from Nairobi',
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(15),
                     fontWeight: FontWeight.w600,
@@ -72,7 +74,7 @@ class SecondRowUpper extends StatelessWidget {
                 Icon(Icons.access_time, color: kDarkPrimaryColor),
                 SizedBox(width: 6.w),
                 Text(
-                  '${place.get('time')}',
+                  '${place.time}',
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(15),
                     fontWeight: FontWeight.w600,

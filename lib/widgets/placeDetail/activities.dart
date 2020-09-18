@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tembea_user/model/place.dart';
 
 class PlaceActivities extends StatelessWidget {
-  final QueryDocumentSnapshot place;
+  final Places place;
 
   const PlaceActivities({Key key, this.place}) : super(key: key);
   @override
@@ -11,7 +12,7 @@ class PlaceActivities extends StatelessWidget {
     return Wrap(
       spacing: 7.w,
       runSpacing: 4.h,
-      children: place.get('activities').map<Widget>((activity) {
+      children: place.activities.map<Widget>((activity) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
           decoration: BoxDecoration(

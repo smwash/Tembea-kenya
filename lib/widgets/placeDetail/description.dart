@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tembea_user/model/place.dart';
 import 'package:tembea_user/utils/constants.dart';
 
 class PlaceDetailDescription extends StatefulWidget {
-  final QueryDocumentSnapshot place;
+  final Places place;
 
   const PlaceDetailDescription({Key key, @required this.place})
       : super(key: key);
@@ -21,7 +22,7 @@ class _PlaceDetailDescriptionState extends State<PlaceDetailDescription> {
       children: [
         AnimatedCrossFade(
           firstChild: Text(
-            widget.place.get('description'),
+            widget.place.description,
             maxLines: 5,
             style: TextStyle(
               fontSize: ScreenUtil().setSp(13),
@@ -31,7 +32,7 @@ class _PlaceDetailDescriptionState extends State<PlaceDetailDescription> {
             ),
           ),
           secondChild: Text(
-            widget.place.get('description'),
+            widget.place.description,
             style: TextStyle(
               fontSize: ScreenUtil().setSp(13.7),
               fontWeight: FontWeight.w500,
