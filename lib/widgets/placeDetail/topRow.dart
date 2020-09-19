@@ -29,11 +29,28 @@ class _PlaceDetailTopRowState extends State<PlaceDetailTopRow> {
   // @override
   // void initState() {
   //   super.initState();
-  //   UserData user = Provider.of<UserData>(context, listen: false);
-  //   UserProvider userProvider =
-  //       Provider.of<UserProvider>(context, listen: false);
-  //   Database().updateSavedStatus(userId: user.userId, placeId: widget.place.placeId, userProvider: userProvider);
+  //   _handleSaveStatus();
   // }
+
+  // @override
+  // void didUpdateWidget(PlaceDetailTopRow oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   _handleSaveStatus();
+  //   // if (oldWidget. .post.likeCount != widget.post.likeCount) {
+  //   //   _likeCount = widget.post.likeCount;
+  //   // }
+  // }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _handleSaveStatus();
+  }
+
+  _handleSaveStatus() {
+    UserProvider user = Provider.of<UserProvider>(context);
+    bool isSaved = user.savedStatus;
+    setState(() => _isSaved = isSaved);
+  }
 
   // _handleSavedStatus() async {
   //   var savedPlace = Database().querySavedPlaces(widget.place.id);
@@ -130,7 +147,7 @@ class _PlaceDetailTopRowState extends State<PlaceDetailTopRow> {
               InkWell(
                 child: CircleAvatar(
                   backgroundColor: kDarkPrimaryColor,
-                  child: status.savedStatus
+                  child: _isSaved
                       ? Icon(Icons.bookmark, color: Colors.white)
                       : Icon(Icons.bookmark_border, color: Colors.white),
                 ),
