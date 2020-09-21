@@ -33,6 +33,6 @@ class UserData {
         userId = doc['userId'],
         userName = doc['userName'],
         photoUrl = doc['photoUrl'],
-        savedPlaces = doc['savedPlaces'],
+        savedPlaces = List.from(doc['savedPlaces']),
         dateJoined = DateTime.parse(doc['dateJoined']);
 }

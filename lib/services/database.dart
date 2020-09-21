@@ -14,36 +14,63 @@ class Database {
   }
 
   getUserData({UserData user, UserProvider userProvider}) async {
-    try {} catch (error) {
+    try {
+      UserData snapshot = await _db
+          .collection('users')
+          .doc(user.userId)
+          .get()
+          .then((snapshot) => UserData.fromFirestore(snapshot.data()));
+      userProvider.setParameters(snapshot);
+    } catch (error) {
       print(error);
     }
-    UserData snapshot = await _db
-        .collection('users')
-        .doc(user.userId)
-        .get()
-        .then((snapshot) => UserData.fromFirestore(snapshot.data()));
-    //print(snapshot.userName);
-    userProvider.setParameters(snapshot);
   }
 
-  Future<void> addToSavedPlaces({String userId, Places placeId}) async {
+  getUserPlacesFromPlaces({List placeId, UserProvider userProvider}) async {
+    try {
+      _db.collection('places').get().then((value) => null);
+      QuerySnapshot snapshot = await _db
+          .collection('places')
+          .where({FieldPath.documentId, placeId}).get();
+      List<Places> _allPlaces = [];
+      snapshot.docs.forEach((doc) {
+        Places places = Places.fromFirestore(doc);
+        _allPlaces.add(places);
+      });
+      userProvider.setUserSavedList = _allPlaces;
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> addToSavedPlaces({String userId, String placeId}) async {
     return await _db.collection('users').doc(userId).update({
       'savedPlaces': FieldValue.arrayUnion([placeId])
     });
   }
 
-  Future<void> removeFromSavedPlaces({String userId, String id}) async {
+  Future<void> removeFromSavedPlaces({String userId, String placeId}) async {
     return await _db.collection('users').doc(userId).update({
-      'savedPlaces': FieldValue.arrayRemove([id])
+      'savedPlaces': FieldValue.arrayRemove([placeId])
     });
   }
 
-  Future<void> querySavedPlaces(String queryId) async {
-    return await _db
-        .collection('users')
-        .limit(1)
-        .where('savedPlaces', isEqualTo: queryId)
-        .get();
+  querySavedPlaces({List queryIds, UserProvider userProvider}) async {
+    try {
+      QuerySnapshot snapshot = await _db
+          .collection('places')
+          .where('savedPlaces', isEqualTo: queryIds)
+          .get();
+      List<Places> _savedPlaces = [];
+      snapshot.docs.forEach((doc) {
+        Places places = Places.fromFirestore(doc);
+        _savedPlaces.add(places);
+        print(_savedPlaces.length);
+      });
+      userProvider.setUserSavedList = _savedPlaces;
+    } catch (error) {
+      print(error);
+    }
   }
 
   // Likes:
@@ -71,6 +98,21 @@ class Database {
     } catch (error) {
       print(error);
     }
+  }
+
+  getUserSavedPlaces({UserProvider userProvider, String userId}) async {
+    try {
+      DocumentSnapshot snapshot =
+          await _db.collection('users').doc(userId).get();
+      List<String> _savedPlaces = [];
+      snapshot.data()['savedPlaces'].forEach((doc) {
+        //UserData places = UserData.fromMap(doc);
+        _savedPlaces.add(doc);
+        print(doc.length);
+      });
+
+      userProvider.setSavedList = _savedPlaces;
+    } catch (error) {}
   }
 
   getFeaturedPlaces(PlaceProvider placeProvider) async {
@@ -152,33 +194,52 @@ class Database {
   //   });
   // }
 
-  Future<bool> updateSavedStatus({String userId, String placeId}) async {
-    DocumentReference savedPlacesRef = _db.collection('users').doc(userId);
+  Future<void> updateUserSaveStatus(
+      {String userId, UserProvider userProvider, String placeId}) async {
+    DocumentSnapshot docSnapshot =
+        await _db.collection('users').doc(userId).get();
+    if (docSnapshot.data()['savedPlaces'].contains(placeId)) {
+      userProvider.setIsSaved = true;
+    } else {
+      userProvider.setIsSaved = false;
+    }
+  }
 
-    return _db.runTransaction((transaction) async {
-      DocumentSnapshot placeSnapshot = await transaction.get(savedPlacesRef);
-      if (placeSnapshot.exists) {
-        if (!placeSnapshot.data()['savedPlaces'].contains(placeId)) {
-          transaction.update(savedPlacesRef, {
-            'savedPlaces': FieldValue.arrayUnion([placeId])
-          });
+  updateSavedStatus({String userId, String placeId}) async {
+    DocumentReference savedPlacesRef = _db.collection('users').doc(userId);
+    try {
+      await _db.runTransaction((transaction) async {
+        DocumentSnapshot placeSnapshot = await transaction.get(savedPlacesRef);
+        if (placeSnapshot.exists) {
+          if (!placeSnapshot.data()['savedPlaces'].contains(placeId)) {
+            // userProvider.setIsSaved = true;
+            transaction.update(savedPlacesRef, {
+              'savedPlaces': FieldValue.arrayUnion([placeId])
+            });
+          } else {
+            //userProvider.setIsSaved = false;
+            transaction.update(savedPlacesRef, {
+              'savedPlaces': FieldValue.arrayRemove([placeId])
+            });
+          }
         } else {
-          transaction.update(savedPlacesRef, {
-            'savedPlaces': FieldValue.arrayRemove([placeId])
+          transaction.set(savedPlacesRef, {
+            'savedPlaces': [placeId]
           });
         }
-      } else {
-        transaction.set(savedPlacesRef, {
-          'savedPlaces': [placeId]
-        });
-      }
-    }).then((value) {
-      //userProvider.setIsSaved = true;
-      return true;
-    }).catchError((error) {
-      //userProvider.setIsSaved = false;
-      return false;
-    });
+      });
+    } catch (error) {
+      print(error);
+    }
+
+    // .then((value) {
+    //   //userProvider.setIsSaved = true;
+    //   return true;
+    // })
+    // .catchError((error) {
+    //   //userProvider.setIsSaved = false;
+    //   return false;
+    // });
     // } catch (error) {
     //   print(error);
     // }

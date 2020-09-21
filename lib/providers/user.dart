@@ -1,9 +1,9 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:tembea_user/model/place.dart';
-import 'package:tembea_user/model/user.dart';
-import 'package:tembea_user/services/database.dart';
+import '../model/place.dart';
+import '../model/user.dart';
+import '../services/database.dart';
 
 class UserProvider with ChangeNotifier {
   String _email;
@@ -13,6 +13,7 @@ class UserProvider with ChangeNotifier {
   String _userName;
   DateTime _dateJoined;
   List _savedPlaces = [];
+  List<Places> _userPlaces = [];
 
   //Getters:
   bool get savedStatus => _isSaved;
@@ -22,6 +23,8 @@ class UserProvider with ChangeNotifier {
   String get userName => _userName;
   DateTime get memberSince => _dateJoined;
   UnmodifiableListView get getSavedPlaces => UnmodifiableListView(_savedPlaces);
+  UnmodifiableListView<Places> get getUserSavedPlaces =>
+      UnmodifiableListView(_userPlaces);
 
   //SETTERS:
   setParameters(UserData user) {
@@ -38,26 +41,45 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setUserSavedList(List<Places> savedPlaces) {
+    _userPlaces = savedPlaces;
+    notifyListeners();
+  }
+
   set setIsSaved(bool isSaved) {
     _isSaved = isSaved;
     notifyListeners();
   }
 
-  updateSavedStatus({String userId, String placeId}) {
-    Database()
-        .updateSavedStatus(userId: userId, placeId: placeId)
-        .then((result) {
-      if (result == true) {
-        if (!_savedPlaces.contains(placeId)) {
-          _isSaved = true;
-          _savedPlaces.add(placeId);
-        } else {
-          _isSaved = false;
-          _savedPlaces.remove(placeId);
-          //_isSaved = false;
-        }
-        notifyListeners();
-      }
-    });
+  updateLocalSaveStatus({String userId, String placeId}) {
+    if (!_savedPlaces.contains(placeId)) {
+      _savedPlaces.add(placeId);
+      _isSaved = true;
+      Database().addToSavedPlaces(userId: userId, placeId: placeId);
+      print('$placeId added to db');
+    } else {
+      _savedPlaces.remove(placeId);
+      _isSaved = false;
+      Database().removeFromSavedPlaces(userId: userId, placeId: placeId);
+      print('$placeId removed from db');
+    }
+    notifyListeners();
   }
+
+  // updateSavedStatus({String userId, String placeId}) {
+  //   Database()
+  //       .updateSavedStatus(userId: userId, placeId: placeId)
+  //       .then((result) {
+  //     if (!_savedPlaces.contains(placeId)) {
+  //       _isSaved = true;
+  //       _savedPlaces.add(placeId);
+  //       print('$placeId added to db');
+  //     } else {
+  //       _isSaved = false;
+  //       _savedPlaces.remove(placeId);
+  //       print('$placeId removed from db');
+  //     }
+  //   });
+  //   notifyListeners();
+  // }
 }

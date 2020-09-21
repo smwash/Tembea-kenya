@@ -23,10 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  StreamSubscription _sub;
-  final _db = FirebaseFirestore.instance;
-  List data;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

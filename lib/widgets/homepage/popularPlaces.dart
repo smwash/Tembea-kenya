@@ -27,15 +27,19 @@ class _PopularPlacesState extends State<PopularPlaces> {
   Widget build(BuildContext context) {
     PlaceProvider places = Provider.of<PlaceProvider>(context);
     return Container(
-      height: 168.h,
+      height: 170.h,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 4.w),
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         itemCount: places.getFanFavPlaces.length,
         itemBuilder: (context, index) {
           Places place = places.getFanFavPlaces[index];
-          return PopularPlacesCard(place: place);
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            child: PopularPlacesCard(place: place),
+          );
         },
       ),
     );

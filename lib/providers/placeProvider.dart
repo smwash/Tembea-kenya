@@ -1,13 +1,12 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:tembea_user/model/place.dart';
+import '../model/place.dart';
 import 'package:tembea_user/model/user.dart';
 
 class PlaceProvider with ChangeNotifier {
   List<Places> _allPlaces = [];
   List<Places> _fanFavorites = [];
-
   List<Places> _featuredPlaces = [];
   List<Places> _mostVisitedPlaces = [];
   int _likes;

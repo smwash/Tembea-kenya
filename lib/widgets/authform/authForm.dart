@@ -31,11 +31,14 @@ class _AuthFormState extends State<AuthForm> {
           ),
           SizedBox(height: 15.h),
           RoundIconNameBtn(
-            label: 'facebook',
-            icon: MdiIcons.facebook,
+            label: 'Google',
+            icon: MdiIcons.google,
+            color: Colors.white,
+            colorText: Colors.black,
+            iconColor: Colors.black,
             onPress: () async {
               try {
-                await AuthService().fbLogin();
+                await AuthService().googleSignIn();
                 print('SignedIn');
               } catch (error) {
                 print(error);
@@ -72,11 +75,14 @@ class _AuthFormState extends State<AuthForm> {
           ),
           SizedBox(height: 12.h),
           RoundIconNameBtn(
-            label: 'google',
-            icon: MdiIcons.google,
+            label: 'Facebook',
+            color: Color(0xff3b5998),
+            colorText: Colors.white,
+            icon: MdiIcons.facebook,
+            iconColor: Colors.white,
             onPress: () async {
               try {
-                await AuthService().googleSignIn();
+                await AuthService().fbLogin();
                 print('SignedIn');
               } catch (error) {
                 print(error);

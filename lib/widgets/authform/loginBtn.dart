@@ -6,37 +6,45 @@ class RoundIconNameBtn extends StatelessWidget {
     Key key,
     this.label,
     this.icon,
+    this.color,
     this.onPress,
+    this.colorText,
+    this.iconColor,
   }) : super(key: key);
 
   final String label;
   final IconData icon;
   final Function onPress;
+  final Color color;
+  final Color colorText;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        height: 47.h,
-        width: 170.w,
+        height: 50.h,
+        width: 268.w,
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
         decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(15.0),
+          color: color,
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: Row(
           children: [
             Icon(
               icon,
               size: ScreenUtil().setSp(40),
-              color: Colors.white,
+              color: iconColor,
             ),
-            SizedBox(width: 10.w),
+            SizedBox(width: 7.w),
             Text(
-              label,
+              'Sign Up With $label',
               style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 1.1,
-                fontSize: ScreenUtil().setSp(18.5),
+                color: colorText,
+                letterSpacing: 1,
+                fontWeight: FontWeight.w600,
+                fontSize: ScreenUtil().setSp(16),
               ),
             ),
           ],
