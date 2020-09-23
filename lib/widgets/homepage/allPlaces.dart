@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:tembea_user/providers/placeProvider.dart';
-import 'package:tembea_user/screens/placeDetail.dart';
-import 'package:tembea_user/services/database.dart';
-import 'package:tembea_user/utils/constants.dart';
+
+import '../../providers/placeProvider.dart';
+import '../../screens/placeDetail.dart';
+import '../../services/database.dart';
+import '../../utils/constants.dart';
 import '../../utils/stringCapitalizer.dart';
-import 'package:tembea_user/model/place.dart';
 
 class AllPlaces extends StatefulWidget {
   @override

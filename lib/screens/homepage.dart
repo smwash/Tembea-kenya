@@ -1,21 +1,13 @@
-import 'dart:async';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:tembea_user/providers/placeProvider.dart';
-import 'package:tembea_user/screens/placeDetail.dart';
-import 'package:tembea_user/utils/constants.dart';
-import 'package:tembea_user/widgets/homepage/allPlaces.dart';
-import 'package:tembea_user/widgets/homepage/featuredPlaces.dart';
-import 'package:tembea_user/widgets/homepage/popularPlaces.dart';
-import 'package:tembea_user/widgets/homepage/profilePic.dart';
-import 'package:tembea_user/widgets/homepage/searchField.dart';
-import '../model/user.dart';
-import '../services/database.dart';
+import 'package:tembea_user/widgets/homepage/placeCategory.dart';
+
+import '../utils/constants.dart';
+import '../widgets/homepage/allPlaces.dart';
+import '../widgets/homepage/featuredPlaces.dart';
+import '../widgets/homepage/popularPlaces.dart';
+import '../widgets/homepage/profilePic.dart';
+import '../widgets/homepage/searchField.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,105 +15,108 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<void> _onRefreshing() {
+    print('refreshed page');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kScaffoldBg,
-        body: SafeArea(
-          child: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
-            SliverAppBar(
-              elevation: 0.0,
-              expandedHeight: 215.h,
-              centerTitle: false,
-              pinned: true,
-              floating: true,
-              snap: true,
-              backgroundColor: kScaffoldBg,
-              title: Image.asset('assets/images/home_logo.png'),
-              actions: [
-                ProfilePicture(),
-              ],
-              flexibleSpace: FlexibleSpaceBar(
-                background: FeaturedPlaces(),
-
-                // Stack(
-                //   overflow: Overflow.visible,
-                //   children: [
-                //     FeaturedPlaces(),
-                //     Positioned(
-                //       bottom: 0,
-                //       right: 40.w,
-                //       left: 60.w,
-                //       child: SearchField(),
-                //     ),
-                //   ],
-                // ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 5.h),
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  SizedBox(height: 5.h),
-                  SearchField(),
-                  SizedBox(height: 8.h),
-                  Container(
-                    height: 270.h,
-                    color: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    child: Column(
-                      children: [
-                        buildCatTitle('Fan Favorite'),
-                        SizedBox(height: 5.h),
-                        PopularPlaces(),
-                        SizedBox(height: 5.h),
-                        RaisedButton.icon(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          color: kDarkPrimaryColor,
-                          elevation: 0.0,
-                          icon: Icon(
-                            Icons.wallet_travel,
-                            size: ScreenUtil().setSp(20),
-                            color: Colors.white,
-                          ),
-                          label: Text(
-                            'KWS Park entry fee',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: ScreenUtil().setSp(15.5),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Container(
-                    height: 225.h,
-                    color: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    child: Column(
-                      children: [
-                        buildCatTitle('Most Visited'),
-                        SizedBox(height: 5.h),
-                        PopularPlaces(),
-                        //SizedBox(height: 5.h),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  buildCatTitle('Top Places'),
-                  AllPlaces(),
+        body: RefreshIndicator(
+          onRefresh: _onRefreshing,
+          color: kDarkPrimaryColor,
+          child: SafeArea(
+            child: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
+              SliverAppBar(
+                elevation: 0.0,
+                expandedHeight: 221.h,
+                centerTitle: false,
+                pinned: true,
+                floating: true,
+                snap: true,
+                backgroundColor: kScaffoldBg,
+                title: Image.asset('assets/images/home_logo.png'),
+                actions: [
+                  ProfilePicture(),
                 ],
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    overflow: Overflow.visible,
+                    children: [
+                      FeaturedPlaces(),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SearchField()),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ]),
+              SliverToBoxAdapter(
+                child: SizedBox(height: 8.h),
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    SizedBox(height: 8.h),
+                    Container(
+                      height: 220.h,
+                      color: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Column(
+                        children: [
+                          buildCatTitle('Fan Favorite'),
+                          SizedBox(height: 5.h),
+                          PopularPlaces(),
+                          SizedBox(height: 5.h),
+                          // RaisedButton.icon(
+                          //   shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(10.0),
+                          //   ),
+                          //   color: kDarkPrimaryColor,
+                          //   elevation: 0.0,
+                          //   icon: Icon(
+                          //     Icons.wallet_travel,
+                          //     size: ScreenUtil().setSp(20),
+                          //     color: Colors.white,
+                          //   ),
+                          //   label: Text(
+                          //     'KWS Park entry fee',
+                          //     style: TextStyle(
+                          //       color: Colors.white,
+                          //       fontSize: ScreenUtil().setSp(15.5),
+                          //       fontWeight: FontWeight.w600,
+                          //     ),
+                          //   ),
+                          //   onPressed: () {},
+                          // ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    PlaceCategory(),
+                    SizedBox(height: 12.h),
+                    Container(
+                      height: 225.h,
+                      color: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Column(
+                        children: [
+                          buildCatTitle('Most Visited'),
+                          SizedBox(height: 5.h),
+                          PopularPlaces(),
+                          //SizedBox(height: 5.h),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    buildCatTitle('Top Places'),
+                    AllPlaces(),
+                  ],
+                ),
+              ),
+            ]),
+          ),
         ));
   }
 

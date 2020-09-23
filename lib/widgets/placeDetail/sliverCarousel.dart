@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tembea_user/model/place.dart';
-import 'package:tembea_user/utils/constants.dart';
+import '../../model/place.dart';
+import '../../utils/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SliverCarousel extends StatefulWidget {

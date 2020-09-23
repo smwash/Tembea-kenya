@@ -1,20 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:shimmer/shimmer.dart';
+
 import 'package:tembea_user/model/place.dart';
-import 'package:tembea_user/services/database.dart';
-import 'package:tembea_user/utils/constants.dart';
-import 'package:tembea_user/widgets/placeDetail/activities.dart';
-import 'package:tembea_user/widgets/placeDetail/description.dart';
-import 'package:tembea_user/widgets/placeDetail/secondRow.dart';
-import 'package:tembea_user/widgets/placeDetail/sliverCarousel.dart';
-import 'package:tembea_user/widgets/placeDetail/topRow.dart';
-import 'package:tembea_user/widgets/placeDetail/visitRow.dart';
-import '../utils/stringCapitalizer.dart';
+
+import '../utils/constants.dart';
+import '../widgets/placeDetail/activities.dart';
+import '../widgets/placeDetail/description.dart';
+import '../widgets/placeDetail/secondRow.dart';
+import '../widgets/placeDetail/sliverCarousel.dart';
+import '../widgets/placeDetail/topRow.dart';
+import '../widgets/placeDetail/visitRow.dart';
 
 class PlaceDetail extends StatelessWidget {
   final Places place;

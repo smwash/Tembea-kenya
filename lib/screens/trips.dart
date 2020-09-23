@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/model/user.dart';
-import 'package:tembea_user/providers/user.dart';
-import 'package:tembea_user/services/database.dart';
-import 'package:tembea_user/utils/constants.dart';
+import 'package:tembea_user/widgets/trips/emptyList.dart';
+import '../model/place.dart';
+import '../widgets/trips/saveCard.dart';
+import '../model/user.dart';
+import '../providers/user.dart';
+import '../services/database.dart';
+import '../utils/constants.dart';
 
 class Trips extends StatefulWidget {
   @override
@@ -22,10 +24,6 @@ class _TripsState extends State<Trips> {
     Database().getUserData(user: user, userProvider: userProvider);
     Database().querySavedPlaces(
         queryIds: userProvider.getSavedPlaces, userProvider: userProvider);
-
-    // .getUserPlacesFromPlaces(
-    //     userProvider: userProvider, placeId: userProvider.getSavedPlaces);
-    // //.getUserSavedPlaces(userId: user.userId, userProvider: userProvider);
   }
 
   @override
@@ -35,22 +33,54 @@ class _TripsState extends State<Trips> {
     return Scaffold(
       backgroundColor: kScaffoldBg,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         title: Text(
           'BookMarks',
           style: TextStyle(
+            color: Colors.black,
             fontSize: ScreenUtil().setSp(19),
             fontWeight: FontWeight.bold,
             letterSpacing: 1.0,
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 3.w),
+            child: RaisedButton.icon(
+              elevation: 0.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              color: places.getSavedPlaces.isEmpty
+                  ? kPrimaryColor.withOpacity(0.6)
+                  : kPrimaryColor.withOpacity(0.2),
+              icon: Icon(Icons.delete),
+              label: Text(
+                'Delete All',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              onPressed: () async {
+                final user = Provider.of<UserData>(context, listen: false);
+                try {
+                  places.deleteAllSavedPlaces(userId: user.userId);
+                } catch (error) {}
+              },
+            ),
+          )
+        ],
       ),
-      body: ListView.builder(
-        itemCount: places.getSavedPlaces.length,
-        itemBuilder: (context, index) {
-          print(places.getUserSavedPlaces.length);
-          return Text('${places.getUserSavedPlaces.length}');
-        },
-      ),
+      body: places.getUserSavedPlaces.length == 0
+          ? EmptyList()
+          : ListView.builder(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.only(top: 10.h),
+              itemCount: places.getUserSavedPlaces.length,
+              itemBuilder: (context, index) {
+                Places place = places.getUserSavedPlaces[index];
+                return SaveCard(place: place);
+              },
+            ),
     );
   }
 }

@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tembea_user/providers/placeProvider.dart';
-import 'package:tembea_user/services/database.dart';
+import 'package:tembea_user/screens/placeDetail.dart';
 import 'package:tembea_user/utils/constants.dart';
+import 'package:tembea_user/utils/pageAnimation.dart';
+import '../../providers/placeProvider.dart';
+import '../../services/database.dart';
 
 import 'featuredPlaceDetail.dart';
 
@@ -39,31 +41,33 @@ class _FeaturedPlacesState extends State<FeaturedPlaces> {
               return Stack(
                 children: [
                   InkWell(
-                    child: Container(
-                        height: 215.h,
-                        width: double.infinity,
-                        child: CachedNetworkImage(
-                          imageUrl: place.coverPhoto,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: Colors.grey[200],
-                            highlightColor: Colors.grey[350],
-                            child: Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 20.w, vertical: 10.h),
-                              height: 160.h,
-                              //width: double.infinity,
+                      child: Container(
+                          height: 200.h,
+                          width: double.infinity,
+                          child: CachedNetworkImage(
+                            imageUrl: place.coverPhoto,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: kShimmerBaseColor,
+                              highlightColor: kShimmerHighlightColor,
+                              child: Container(
+                                height: 200.h,
+                                width: double.infinity,
+                              ),
                             ),
-                          ),
-                        )),
-                    onTap: () {},
-                  ),
-                  Positioned(
-                    bottom: 0.h,
-                    left: 0.w,
-                    right: 0.w,
-                    child: FeaturedPlaceDetail(place: place),
-                  ),
+                          )),
+                      onTap: () => Navigator.push(
+                            context,
+                            PageAnimator(
+                              page: PlaceDetail(place: place),
+                            ),
+                          )),
+                  // Positioned(
+                  //   bottom: 0.h,
+                  //   left: 0.w,
+                  //   right: 0.w,
+                  //   child: FeaturedPlaceDetail(place: place),
+                  // ),
                 ],
               );
             },

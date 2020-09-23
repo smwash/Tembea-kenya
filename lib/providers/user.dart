@@ -23,8 +23,7 @@ class UserProvider with ChangeNotifier {
   String get userName => _userName;
   DateTime get memberSince => _dateJoined;
   UnmodifiableListView get getSavedPlaces => UnmodifiableListView(_savedPlaces);
-  UnmodifiableListView<Places> get getUserSavedPlaces =>
-      UnmodifiableListView(_userPlaces);
+  List<Places> get getUserSavedPlaces => UnmodifiableListView(_userPlaces);
 
   //SETTERS:
   setParameters(UserData user) {
@@ -48,6 +47,18 @@ class UserProvider with ChangeNotifier {
 
   set setIsSaved(bool isSaved) {
     _isSaved = isSaved;
+    notifyListeners();
+  }
+
+  deleteAllSavedPlaces({String userId}) async {
+    try {
+      if (_savedPlaces.isNotEmpty && _userPlaces.isNotEmpty) {
+        _savedPlaces.clear();
+        await Database().deleteAllSavedPlaces(userId);
+      }
+    } catch (error) {
+      print(error);
+    }
     notifyListeners();
   }
 

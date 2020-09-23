@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../providers/placeProvider.dart';
 import '../../model/place.dart';
 import '../../model/user.dart';
 import '../../providers/user.dart';
@@ -29,10 +30,16 @@ class _PlaceDetailTopRowState extends State<PlaceDetailTopRow> {
       UserData user = Provider.of<UserData>(context, listen: false);
       UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
+      PlaceProvider placeProvider =
+          Provider.of<PlaceProvider>(context, listen: false);
       Database().updateUserSaveStatus(
           userId: user.userId,
           placeId: widget.place.placeId,
           userProvider: userProvider);
+      Database().updateUserLikeStatus(
+          placeId: widget.place.placeId,
+          userId: user.userId,
+          placeProvider: placeProvider);
     });
   }
 
@@ -53,17 +60,32 @@ class _PlaceDetailTopRowState extends State<PlaceDetailTopRow> {
             ),
           ],
         ),
-        Consumer<UserProvider>(builder: (context, status, _) {
-          return Row(
-            children: [
-              IconButton(
-                  icon: _isLiked
-                      ? Icon(Icons.favorite,
-                          color: Colors.amber, size: ScreenUtil().setSp(25))
-                      : Icon(Icons.favorite_border,
-                          size: ScreenUtil().setSp(25)),
-                  onPressed: () {}),
-              GestureDetector(
+        Row(
+          children: [
+            Consumer<PlaceProvider>(
+              builder: (context, likestatus, _) {
+                return IconButton(
+                    icon: likestatus.isLiked
+                        ? Icon(Icons.favorite,
+                            color: Colors.amber, size: ScreenUtil().setSp(25))
+                        : Icon(Icons.favorite_border,
+                            size: ScreenUtil().setSp(25)),
+                    onPressed: () {
+                      final user =
+                          Provider.of<UserData>(context, listen: false);
+                      try {
+                        likestatus.updateLikeStatus(
+                            placeId: widget.place.placeId, userId: user.userId);
+                        print('executed');
+                      } catch (error) {
+                        print(error);
+                      }
+                    });
+              },
+            ),
+            SizedBox(width: 8.w),
+            Consumer<UserProvider>(builder: (context, status, _) {
+              return GestureDetector(
                 child: CircleAvatar(
                   backgroundColor: kDarkPrimaryColor,
                   child: status.savedStatus
@@ -80,10 +102,10 @@ class _PlaceDetailTopRowState extends State<PlaceDetailTopRow> {
                     print(error);
                   }
                 },
-              ),
-            ],
-          );
-        }),
+              );
+            }),
+          ],
+        ),
       ],
     );
   }
