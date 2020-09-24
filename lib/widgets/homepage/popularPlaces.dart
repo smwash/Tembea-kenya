@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tembea_user/model/place.dart';
-import 'package:tembea_user/providers/placeProvider.dart';
-import 'package:tembea_user/services/database.dart';
+import '../../model/place.dart';
+import '../../providers/placeProvider.dart';
+import '../../services/database.dart';
 
 import 'popularPlacesCard.dart';
 
@@ -35,8 +35,8 @@ class _PopularPlacesState extends State<PopularPlaces> {
         itemBuilder: (context, index) {
           Places place = places.getFanFavPlaces[index];
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w),
-            child: PopularPlacesCard(place: place),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: PopularPlacesCard(place: place, isFanFav: true),
           );
         },
       ),

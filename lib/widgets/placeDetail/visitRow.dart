@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tembea_user/screens/writeReview.dart';
+import 'package:tembea_user/utils/pageAnimation.dart';
 import '../../model/user.dart';
 import '../../providers/placeProvider.dart';
 import '../../services/database.dart';
@@ -101,7 +103,12 @@ class _VisitRowState extends State<VisitRow> {
                     ),
                   ),
                 ),
-                onTap: () {},
+                // onTap: () => Navigator.push(
+                //   context,
+                //   PageAnimator(
+                //     page: ReviewPage(),
+                //   ),
+                // ),
               )
             ]),
           ],
@@ -121,7 +128,12 @@ class _VisitRowState extends State<VisitRow> {
               )
             ],
           ),
-          onTap: () {},
+          onTap: () => Navigator.push(
+            context,
+            PageAnimator(
+              page: ReviewPage(placeId: widget.place.placeId),
+            ),
+          ),
         ),
       ],
     );

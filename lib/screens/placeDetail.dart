@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:tembea_user/model/place.dart';
-
+import '../model/place.dart';
+import '../widgets/placeDetail/placeReviews.dart';
 import '../utils/constants.dart';
 import '../widgets/placeDetail/activities.dart';
 import '../widgets/placeDetail/description.dart';
@@ -104,6 +104,8 @@ class PlaceDetail extends StatelessWidget {
                         color: kPrimaryColor.withOpacity(0.7),
                         thickness: 1.0,
                       ),
+                      PlaceReviews(place: place),
+                      SizedBox(height: 5.h),
                     ],
                   ),
                 ),

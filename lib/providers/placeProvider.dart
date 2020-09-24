@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:tembea_user/model/review.dart';
 import '../services/database.dart';
 import '../model/place.dart';
 
@@ -15,6 +16,7 @@ class PlaceProvider with ChangeNotifier {
   List<Places> _orphanage = [];
   List _placeLikes = [];
   List _placeVisits = [];
+  List _reviews = [];
 
   bool _isLiked = false;
   bool _isVisited = false;
@@ -43,6 +45,8 @@ class PlaceProvider with ChangeNotifier {
   UnmodifiableListView<Places> get getOrphanage =>
       UnmodifiableListView(_orphanage);
 
+  UnmodifiableListView get getReviewList => UnmodifiableListView(_reviews);
+
   bool get isLiked => _isLiked;
   bool get isVisited => _isVisited;
 
@@ -57,7 +61,7 @@ class PlaceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set mostVisitedPlaces(List<Places> visitedPlaces) {
+  set setMostVisitedPlaces(List<Places> visitedPlaces) {
     _mostVisitedPlaces = visitedPlaces;
     notifyListeners();
   }
@@ -104,6 +108,11 @@ class PlaceProvider with ChangeNotifier {
 
   set setFeaturedPlaces(List<Places> featuredPlaces) {
     _featuredPlaces = featuredPlaces;
+    notifyListeners();
+  }
+
+  set setReviewList(List<Review> reviews) {
+    _reviews = reviews;
     notifyListeners();
   }
 

@@ -10,12 +10,12 @@ import '../../utils/pageAnimation.dart';
 import '../../utils/stringCapitalizer.dart';
 
 class PopularPlacesCard extends StatelessWidget {
-  const PopularPlacesCard({
-    Key key,
-    @required this.place,
-  }) : super(key: key);
+  const PopularPlacesCard(
+      {Key key, @required this.place, this.isFanFav = false})
+      : super(key: key);
 
   final Places place;
+  final bool isFanFav;
 
   @override
   Widget build(BuildContext context) {
@@ -41,30 +41,31 @@ class PopularPlacesCard extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              right: 3.w,
-              top: 2.5.h,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 3.w),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[50],
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.favorite, color: kDarkPrimaryColor),
-                    SizedBox(width: 3.w),
-                    Text(
-                      '${place.likes.length}',
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(15),
-                        fontWeight: FontWeight.w600,
+            if (isFanFav)
+              Positioned(
+                right: 3.w,
+                top: 2.5.h,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 3.w),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[50],
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.favorite, color: kDarkPrimaryColor),
+                      SizedBox(width: 3.w),
+                      Text(
+                        '${place.likes.length}',
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(15),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
             Positioned(
               bottom: 0,
               right: 0.w,

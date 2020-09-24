@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tembea_user/model/review.dart';
 
 import '../model/place.dart';
 import '../model/user.dart';
@@ -88,7 +89,6 @@ class Database {
           await _db.collection('users').doc(userId).get();
       List<String> _savedPlaces = [];
       snapshot.data()['savedPlaces'].forEach((doc) {
-        //UserData places = UserData.fromMap(doc);
         _savedPlaces.add(doc);
         print(doc.length);
       });
@@ -109,6 +109,22 @@ class Database {
     } catch (error) {
       print(error);
     }
+  }
+
+  getMostVisitedPlaces(PlaceProvider placeProvider) async {
+    try {
+      QuerySnapshot snapshot = await _db
+          .collection('places')
+          .limit(9)
+          .orderBy('visitedBy', descending: true)
+          .get();
+      List<Places> _places = [];
+      snapshot.docs.forEach((doc) {
+        Places places = Places.fromFirestore(doc);
+        _places.add(places);
+      });
+      placeProvider.setMostVisitedPlaces = _places;
+    } catch (error) {}
   }
 
   getfanFavPlaces(PlaceProvider placeProvider) async {
@@ -221,15 +237,6 @@ class Database {
   }
 
   //LIKES:
-  // Future<List> fetchPlaceById(String placeId) async {
-  //   DocumentSnapshot docSnapshot =
-  //       await _db.collection('places').doc(placeId).get();
-  //   List result;
-  //   if (docSnapshot.exists) {
-  //     result = docSnapshot.data()['likes'];
-  //   }
-  //   return result;
-  // }
 
   Future<void> updateUserLikeStatus(
       {String userId, PlaceProvider placeProvider, String placeId}) async {
@@ -278,5 +285,33 @@ class Database {
     return await _db.collection('places').doc(placeId).update({
       'visitedBy': FieldValue.arrayUnion([userId])
     });
+  }
+
+  //REVIEWS:
+  Future<void> addPlaceReview({String placeId, Review review}) async {
+    await _db
+        .collection('places')
+        .doc(placeId)
+        .collection('reviews')
+        .doc(review.reviewId)
+        .set(review.toMap());
+  }
+
+  getPlaceReviews({String placeId, PlaceProvider placeProvider}) async {
+    try {
+      QuerySnapshot snapshot = await _db
+          .collection('places')
+          .doc(placeId)
+          .collection('reviews')
+          .get();
+      List<Review> _reviews = [];
+      snapshot.docs.forEach((doc) {
+        Review review = Review.fromFirestore(doc.data());
+        _reviews.add(review);
+      });
+      placeProvider.setReviewList = _reviews;
+    } catch (error) {
+      print(error);
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tembea_user/widgets/homepage/mostVisited.dart';
 import 'package:tembea_user/widgets/homepage/placeCategory.dart';
 
 import '../utils/constants.dart';
@@ -104,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           buildCatTitle('Most Visited'),
                           SizedBox(height: 5.h),
-                          PopularPlaces(),
+                          MostVisitedPlaces(),
                           //SizedBox(height: 5.h),
                         ],
                       ),

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/model/place.dart';
-import 'package:tembea_user/providers/placeProvider.dart';
-import 'package:tembea_user/services/database.dart';
-import 'package:tembea_user/widgets/homepage/popularPlacesCard.dart';
+import '../../model/place.dart';
+import '../../providers/placeProvider.dart';
+import '../../services/database.dart';
+import '../../widgets/homepage/popularPlacesCard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PopularPlaces extends StatefulWidget {
+class MostVisitedPlaces extends StatefulWidget {
   @override
-  _PopularPlacesState createState() => _PopularPlacesState();
+  _MostVisitedPlacesState createState() => _MostVisitedPlacesState();
 }
 
-class _PopularPlacesState extends State<PopularPlaces> {
+class _MostVisitedPlacesState extends State<MostVisitedPlaces> {
   @override
   void initState() {
     super.initState();
     PlaceProvider places = Provider.of<PlaceProvider>(context, listen: false);
-    Database().getfanFavPlaces(places);
+    Database().getMostVisitedPlaces(places);
   }
 
   @override
@@ -28,10 +28,13 @@ class _PopularPlacesState extends State<PopularPlaces> {
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: places.getFanFavPlaces.length,
+        itemCount: places.getmostVisitedPlaces.length,
         itemBuilder: (context, index) {
-          Places place = places.getFanFavPlaces[index];
-          return PopularPlacesCard(place: place);
+          Places place = places.getmostVisitedPlaces[index];
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: PopularPlacesCard(place: place),
+          );
         },
       ),
     );
