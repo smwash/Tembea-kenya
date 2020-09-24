@@ -93,7 +93,7 @@ class _VisitRowState extends State<VisitRow> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                   decoration: BoxDecoration(
-                      color: Color(0xfffadcac),
+                      color: kDarkAccentColor,
                       borderRadius: BorderRadius.circular(7)),
                   child: Text(
                     'Plan To Visit?',

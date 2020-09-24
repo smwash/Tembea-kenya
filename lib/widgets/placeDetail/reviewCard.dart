@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:tembea_user/model/review.dart';
-import 'package:tembea_user/utils/constants.dart';
+import '../../model/review.dart';
+import '../../utils/constants.dart';
 
 class ReviewCard extends StatelessWidget {
   final Review review;
@@ -12,10 +12,6 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: 100.h,
-      //width: double.infinity,
-      //padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 5.w),
-      //color: Colors.blue,
       child: ListTile(
         tileColor: kPrimaryColor.withOpacity(0.1),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

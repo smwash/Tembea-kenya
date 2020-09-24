@@ -20,10 +20,9 @@ class _BottomNavState extends State<BottomNav> {
       HomePage(),
       Trips(),
       Profile(),
-      Settings(),
     ];
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         bottomNavigationBar: Material(
           elevation: 2.0,
@@ -42,13 +41,10 @@ class _BottomNavState extends State<BottomNav> {
                 icon: Icon(Icons.explore, size: ScreenUtil().setSp(29)),
               ),
               Tab(
-                icon: Icon(Icons.bookmark, size: ScreenUtil().setSp(29)),
+                icon: Icon(Icons.favorite, size: ScreenUtil().setSp(29)),
               ),
               Tab(
                 icon: Icon(Icons.person, size: ScreenUtil().setSp(29)),
-              ),
-              Tab(
-                icon: Icon(Icons.settings, size: ScreenUtil().setSp(29)),
               ),
             ],
           ),

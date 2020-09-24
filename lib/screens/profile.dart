@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tembea_user/widgets/profile/drawer.dart';
 
 import '.././model/user.dart';
 import '.././providers/user.dart';
@@ -17,6 +18,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -26,22 +28,42 @@ class _ProfileState extends State<Profile> {
     Database().getUserData(user: user, userProvider: userProvider);
   }
 
+  void _openEndDrawer() {
+    _scaffoldKey.currentState.openEndDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userdata = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: kScaffoldBg,
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0.0,
+        backgroundColor: Colors.white,
         title: Text(
           'Profile',
           style: TextStyle(
+            color: Colors.black,
             fontSize: ScreenUtil().setSp(18),
             fontWeight: FontWeight.bold,
             letterSpacing: 1.1,
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(8.h),
+            child: GestureDetector(
+                child: CircleAvatar(
+                  backgroundColor: kPrimaryColor,
+                  child: Icon(Icons.settings, color: Colors.white),
+                ),
+                onTap: _openEndDrawer),
+          ),
+        ],
       ),
+      endDrawer: SettingsDrawer(),
+      endDrawerEnableOpenDragGesture: true,
       body: userdata == null
           ? SizedBox.shrink()
           : Container(
@@ -83,35 +105,21 @@ class _ProfileState extends State<Profile> {
                     SizedBox(height: 5.h),
                     Divider(color: kPrimaryColor),
                     buildColumn(
-                        title: 'Rank',
-                        icon: MdiIcons.accountGroup,
-                        label: '25 of 50'),
-                    SizedBox(height: 5.h),
-                    Divider(color: kPrimaryColor),
-                    buildColumn(
                         title: 'Member Since',
                         icon: MdiIcons.calendarRange,
                         label:
                             '${DateFormat().add_yMMMd().format(userdata.memberSince)}'),
-                    SizedBox(height: 5.h),
+                    SizedBox(height: 3.h),
                     Divider(color: kPrimaryColor),
-                    ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 7.w),
-                      title: Text(
-                        'LogOut',
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(16),
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.1,
-                        ),
-                      ),
-                      trailing: Icon(Icons.logout,
-                          size: ScreenUtil().setSp(25),
-                          color: kDarkPrimaryColor),
-                      onTap: () async {
-                        await AuthService().logOut();
-                      },
-                    ),
+                    buildListTile(
+                        icon: Icons.share,
+                        label: 'Invite friends',
+                        onPress: () {}),
+                    Divider(color: kPrimaryColor),
+                    buildListTile(
+                        onPress: () {},
+                        label: 'Rate & Review',
+                        icon: Icons.star_border),
                   ],
                 ),
               ),
@@ -148,6 +156,23 @@ class _ProfileState extends State<Profile> {
         ),
         SizedBox(height: 5.h),
       ],
+    );
+  }
+
+  ListTile buildListTile({Function onPress, String label, IconData icon}) {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 7.w),
+      title: Text(
+        label,
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(16),
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.1,
+        ),
+      ),
+      leading: Icon(icon, color: kDarkPrimaryColor),
+      onTap: onPress,
+      //subtitle: Text(subtitle),
     );
   }
 }
