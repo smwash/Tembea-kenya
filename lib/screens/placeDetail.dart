@@ -19,7 +19,6 @@ class PlaceDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       body: Hero(
         tag: place.placeId,
         child: CustomScrollView(
@@ -27,7 +26,6 @@ class PlaceDetail extends StatelessWidget {
           slivers: [
             SliverAppBar(
               elevation: 2.0,
-              backgroundColor: Colors.white,
               expandedHeight: 400.h,
               leading: Padding(
                 padding: EdgeInsets.all(ScreenUtil().setSp(6.5)),
@@ -52,7 +50,7 @@ class PlaceDetail extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 5.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(40.0),
                   ),
@@ -85,7 +83,7 @@ class PlaceDetail extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: Container(
-                color: Colors.white,
+                color: Theme.of(context).canvasColor,
                 child: Container(
                   padding:
                       EdgeInsets.symmetric(horizontal: 18.w, vertical: 5.h),

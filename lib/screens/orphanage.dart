@@ -28,7 +28,6 @@ class _OrphanageState extends State<Orphanage> {
   Widget build(BuildContext context) {
     final places = Provider.of<PlaceProvider>(context);
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       appBar: categoryAppBar(context: context, title: 'Orphanage Parks'),
       body: ListView.builder(
         physics: BouncingScrollPhysics(),

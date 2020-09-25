@@ -21,6 +21,7 @@ class PlaceActivities extends StatelessWidget {
           child: Text(
             activity,
             style: TextStyle(
+              color: Colors.black,
               fontSize: ScreenUtil().setSp(14),
               fontWeight: FontWeight.w600,
             ),

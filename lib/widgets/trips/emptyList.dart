@@ -8,7 +8,7 @@ class EmptyList extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-      color: Colors.white,
+      color: Theme.of(context).canvasColor,
       child: Column(
         children: [
           SizedBox(height: 35.h),

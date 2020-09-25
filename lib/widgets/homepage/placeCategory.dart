@@ -15,7 +15,7 @@ class PlaceCategory extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 5.w),
-      color: Colors.white,
+      color: Theme.of(context).canvasColor,
       child: Column(
         children: [
           Padding(

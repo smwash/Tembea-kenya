@@ -41,7 +41,7 @@ class _AllPlacesState extends State<AllPlaces> {
               margin: EdgeInsets.symmetric(vertical: 8.h),
               padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 5.h),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).canvasColor,
               ),
               child: Column(
                 children: [

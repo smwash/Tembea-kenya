@@ -18,13 +18,13 @@ class PlaceCategoryCard extends StatelessWidget {
       child: Container(
         height: 295.h,
         width: double.infinity,
-        margin: EdgeInsets.only(bottom: 5.h),
+        margin: EdgeInsets.only(bottom: 8.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: kPrimaryColor.withOpacity(0.4),
               offset: Offset(0, 5),
               blurRadius: 4,
             ),

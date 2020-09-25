@@ -21,8 +21,15 @@ class SaveCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 15),
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 5),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+              color: kPrimaryColor.withOpacity(0.3),
+              offset: Offset(0, 5),
+              blurRadius: 5.0,
+            ),
+          ],
         ),
         child: Row(
           children: [

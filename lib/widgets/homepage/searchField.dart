@@ -27,9 +27,9 @@ class _SearchFieldState extends State<SearchField> {
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
       //margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         borderRadius: BorderRadius.circular(14.0),
-        border: Border.all(color: kDarkPrimaryColor),
+        border: Border.all(color: kDarkPrimaryColor, width: 1.5),
       ),
       child: TextField(
         readOnly: true,
@@ -42,7 +42,7 @@ class _SearchFieldState extends State<SearchField> {
               width: 30.w,
               margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).canvasColor,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
@@ -59,7 +59,7 @@ class _SearchFieldState extends State<SearchField> {
           ),
         ),
         onTap: () {
-          showSearch(context: context, delegate: Search());
+          showSearch(context: context, delegate: Search(ctx: context));
         },
       ),
     );

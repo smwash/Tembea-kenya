@@ -36,15 +36,13 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     UserProvider userdata = Provider.of<UserProvider>(context);
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       key: _scaffoldKey,
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
+        elevation: 1.0,
+        backgroundColor: Theme.of(context).canvasColor,
         title: Text(
           'Profile',
           style: TextStyle(
-            color: Colors.black,
             fontSize: ScreenUtil().setSp(18),
             fontWeight: FontWeight.bold,
             letterSpacing: 1.1,

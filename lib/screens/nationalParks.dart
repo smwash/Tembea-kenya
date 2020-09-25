@@ -28,7 +28,6 @@ class _NationalParksState extends State<NationalParks> {
   Widget build(BuildContext context) {
     final places = Provider.of<PlaceProvider>(context);
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       appBar: categoryAppBar(context: context, title: 'National Parks'),
       body: ListView.builder(
         physics: BouncingScrollPhysics(),

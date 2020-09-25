@@ -48,7 +48,7 @@ class PopularPlacesCard extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[50],
+                    color: Theme.of(context).canvasColor.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Row(

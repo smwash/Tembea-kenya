@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/providers/themeProvider.dart';
+import '../../providers/themeProvider.dart';
 import '../../services/authService.dart';
 import '../../utils/constants.dart';
 

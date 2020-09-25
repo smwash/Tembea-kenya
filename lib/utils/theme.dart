@@ -67,8 +67,8 @@ ThemeData _buildDarkTheme() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: kDarkSecondaryColor,
-      selectedItemColor: kDarkAccentColor,
-      unselectedItemColor: kDarkAccentColor.withOpacity(0.5),
+      // selectedItemColor: kDarkAccentColor,
+      // unselectedItemColor: kDarkAccentColor.withOpacity(0.5),
     ),
 
     accentIconTheme: IconThemeData(color: kDarkAccentColor),
@@ -85,7 +85,7 @@ ThemeData _buildDarkTheme() {
         bodyColor: Colors.white,
         displayColor: Colors.white),
     appBarTheme: AppBarTheme(
-        color: kDarkSecondaryColor,
+        //color: kDarkSecondaryColor,
         elevation: 0.0,
         iconTheme: IconThemeData(color: kDarkAccentColor)),
   );

@@ -67,6 +67,7 @@ class _VisitRowState extends State<VisitRow> {
                           Text(
                             'Yes',
                             style: TextStyle(
+                              color: Colors.black,
                               fontSize: ScreenUtil().setSp(14.5),
                               fontWeight: FontWeight.w600,
                             ),
@@ -98,6 +99,7 @@ class _VisitRowState extends State<VisitRow> {
                   child: Text(
                     'Plan To Visit?',
                     style: TextStyle(
+                      color: Theme.of(context).canvasColor,
                       fontSize: ScreenUtil().setSp(14.5),
                       fontWeight: FontWeight.w600,
                     ),

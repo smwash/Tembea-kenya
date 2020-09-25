@@ -31,14 +31,13 @@ class _TripsState extends State<Trips> {
     UserProvider places = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).canvasColor,
         elevation: 0.0,
         title: Text(
           'BookMarks',
           style: TextStyle(
-            color: Colors.black,
+            // color: Colors.black,
             fontSize: ScreenUtil().setSp(19),
             fontWeight: FontWeight.bold,
             letterSpacing: 1.0,

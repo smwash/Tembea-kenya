@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tembea_user/utils/constants.dart';
+import '.././utils/constants.dart';
 
 AppBar categoryAppBar(
     {@required BuildContext context, @required String title}) {
   return AppBar(
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.of(context).canvasColor,
     elevation: 1.5,
     leading: Padding(
       padding: EdgeInsets.all(8.h),
@@ -20,7 +20,7 @@ AppBar categoryAppBar(
     title: Text(
       title,
       style: TextStyle(
-        color: Colors.black,
+        //color: Colors.black,
         fontSize: ScreenUtil().setSp(19),
         fontWeight: FontWeight.bold,
         letterSpacing: 1.0,

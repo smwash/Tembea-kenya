@@ -28,7 +28,6 @@ class _SafariWalkState extends State<SafariWalk> {
   Widget build(BuildContext context) {
     final places = Provider.of<PlaceProvider>(context);
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       appBar: categoryAppBar(context: context, title: 'SafariWalk'),
       body: ListView.builder(
         physics: BouncingScrollPhysics(),

@@ -28,7 +28,6 @@ class _MarineParksState extends State<MarineParks> {
   Widget build(BuildContext context) {
     final places = Provider.of<PlaceProvider>(context);
     return Scaffold(
-      backgroundColor: kScaffoldBg,
       appBar: categoryAppBar(context: context, title: 'Marine Parks'),
       body: ListView.builder(
         physics: BouncingScrollPhysics(),

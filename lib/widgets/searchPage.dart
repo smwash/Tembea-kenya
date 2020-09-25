@@ -2,14 +2,23 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/screens/placeDetail.dart';
-import 'package:tembea_user/utils/pageAnimation.dart';
+import '../screens/placeDetail.dart';
+import '../utils/pageAnimation.dart';
 import '../model/place.dart';
 import '../providers/placeProvider.dart';
 import '../utils/constants.dart';
 import '../utils/stringCapitalizer.dart';
 
 class Search extends SearchDelegate {
+  final BuildContext ctx;
+  Search({String hintText = 'Search Location', @required this.ctx})
+      : super(
+          searchFieldStyle:
+              TextStyle(color: Theme.of(ctx).primaryTextTheme.headline4.color),
+          searchFieldLabel: hintText,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.search,
+        );
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -67,7 +76,7 @@ class Search extends SearchDelegate {
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
