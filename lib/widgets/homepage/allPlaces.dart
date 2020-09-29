@@ -105,12 +105,11 @@ class _AllPlacesState extends State<AllPlaces> {
                                   Icon(Icons.message, color: kDarkPrimaryColor),
                                   SizedBox(width: 7.w),
                                   Text(
-                                    '8 reviews',
+                                    '${places.getReviewList.length} reviews',
                                     style: TextStyle(
                                       fontSize: ScreenUtil().setSp(15),
                                       fontWeight: FontWeight.w600,
                                     ),
-                                    //TODO add reviews.
                                   )
                                 ],
                               ),

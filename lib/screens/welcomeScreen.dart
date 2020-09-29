@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:tembea_user/utils/constants.dart';
-import 'package:tembea_user/utils/pageAnimation.dart';
+import '../utils/constants.dart';
+import '../utils/pageAnimation.dart';
 
 import 'authScreen.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
+class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
         width: 400.0, height: 810.0, allowFontScaling: true);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           height: ScreenUtil().uiHeightPx,
@@ -26,10 +21,11 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(height: 15.h),
-              Flexible(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                ),
+              Image.asset(
+                'assets/images/app_splash.png',
+                height: 70.h,
+                width: double.infinity,
+                fit: BoxFit.fitHeight,
               ),
               SizedBox(height: 20.h),
               Flexible(
@@ -41,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 'Ready To Discover?',
                 style: TextStyle(
+                  color: Colors.black,
                   fontSize: ScreenUtil().setSp(18.0),
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.1,
@@ -83,9 +80,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 onTap: () => Navigator.push(
                   context,
-                  EnterExitRoute(
-                    exitPage: SplashScreen(),
-                    enterPage: AuthScreen(),
+                  PageAnimator(
+                    page: AuthScreen(),
                   ),
                 ),
               ),

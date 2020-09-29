@@ -22,7 +22,6 @@ class PlaceDetailTopRow extends StatefulWidget {
 }
 
 class _PlaceDetailTopRowState extends State<PlaceDetailTopRow> {
-  bool _isLiked = false;
   @override
   void initState() {
     super.initState();

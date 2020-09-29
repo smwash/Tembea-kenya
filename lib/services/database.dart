@@ -214,13 +214,10 @@ class Database {
   }
 
   Future<void> updateData() async {
-    SetOptions options = SetOptions(merge: true);
-    //GetOptions options = GetOptions(merge: true);
     return _db.collection('places').get().then((snapshot) {
       snapshot.docs.forEach((doc) {
-        doc.reference.update({
-          'category': 'nationalPark',
-        });
+        doc.reference.update(
+            {'visits': FieldValue.delete(), 'reviews': FieldValue.delete()});
       });
     });
   }

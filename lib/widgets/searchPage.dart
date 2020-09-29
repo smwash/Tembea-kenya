@@ -130,7 +130,7 @@ class Search extends SearchDelegate {
                           ),
                           SizedBox(width: 35.w),
                           Text(
-                            '${place.likes.length} Reviews',
+                            '${places.getReviewList.length} Reviews',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                             ),

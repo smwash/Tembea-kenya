@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tembea_user/model/user.dart';
-import 'package:tembea_user/services/database.dart';
+import '../model/user.dart';
+import '../services/database.dart';
 
 class AuthService {
   final _auth = FirebaseAuth.instance;
@@ -26,7 +26,7 @@ class AuthService {
   }
 
   //googleSignin
-  Future<void> googleSignIn() async {
+  Future googleSignIn() async {
     try {
       final GoogleSignInAccount account = await _googleSignIn.signIn();
       final GoogleSignInAuthentication googleAuth =
@@ -41,6 +41,7 @@ class AuthService {
         dateJoined: DateTime.now(),
         photoUrl: account.photoUrl,
         userName: account.displayName,
+        savedPlaces: [],
       );
       await _db.addUser(user);
       return _userFromFirebase(result.user);
@@ -69,6 +70,7 @@ class AuthService {
             dateJoined: DateTime.now(),
             photoUrl: result.user.photoURL,
             userName: result.user.displayName,
+            savedPlaces: [],
           );
           await _db.addUser(user);
           return _userFromFirebase(result.user);

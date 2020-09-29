@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './services/connectivity.dart';
+import './utils/connectivityEnums.dart';
+import './utils/theme.dart';
 import './providers/themeProvider.dart';
 import './model/user.dart';
 import './providers/placeProvider.dart';
 import './providers/user.dart';
-import './screens/splashScreen.dart';
+
 import './utils/loader.dart';
 import './widgets/bottomNav.dart';
 
+import 'screens/welcomeScreen.dart';
 import 'services/authService.dart';
 
 void main() async {
@@ -19,58 +23,67 @@ void main() async {
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  SharedPreferences.getInstance().then((prefs) {
-    var isDarkTheme = prefs.getBool('darkTheme') ?? false;
-    return runApp(MyApp(isDarkTheme: isDarkTheme));
-  });
+  SharedPreferences.getInstance().then(
+    (prefs) {
+      return runApp(
+        MyApp(prefs: prefs),
+      );
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final bool isDarkTheme;
+  final SharedPreferences prefs;
 
-  MyApp({this.isDarkTheme});
+  const MyApp({Key key, this.prefs}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (context) => ThemeProvider(isDarkMode: isDarkTheme),
-      ),
-      StreamProvider<UserData>.value(value: AuthService().user),
-      ChangeNotifierProvider(
-        create: (context) => PlaceProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => UserProvider(),
-      )
-    ], child: MaterialAppWithTheme());
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>.value(
+            value: ThemeProvider(prefs)),
+        StreamProvider<UserData>.value(value: AuthService().user),
+        ChangeNotifierProvider(
+          create: (context) => PlaceProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+        StreamProvider<ConnectivityStatus>(
+          create: (context) =>
+              ConnectivityService().connectionStatusController.stream,
+        )
+      ],
+      child: MyApplication(),
+    );
   }
 }
 
-class MaterialAppWithTheme extends StatelessWidget {
-  const MaterialAppWithTheme({
+class MyApplication extends StatelessWidget {
+  const MyApplication({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(builder: (context, theme, child) {
-      return MaterialApp(
-        title: 'Tembea',
-        debugShowCheckedModeBanner: false,
-        theme: theme.getTheme(),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loader();
-            }
-            if (snapshot.hasData) {
-              return BottomNav();
-            }
-            return SplashScreen();
-          },
-        ),
-      );
-    });
+    return MaterialApp(
+      title: 'Tembea',
+      debugShowCheckedModeBanner: false,
+      theme: Provider.of<ThemeProvider>(context).isDarkMode
+          ? darkTheme
+          : lightTheme,
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loader();
+          }
+          if (snapshot.data is User && snapshot.data != null) {
+            return BottomNav();
+          }
+          return WelcomeScreen();
+        },
+      ),
+    );
   }
 }

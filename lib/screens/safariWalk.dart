@@ -6,7 +6,6 @@ import '../providers/placeProvider.dart';
 import '../services/database.dart';
 import '../shared/placeCatCard.dart';
 import '../shared/categoryAppbar.dart';
-import '../utils/constants.dart';
 
 class SafariWalk extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _SafariWalkState extends State<SafariWalk> {
         itemBuilder: (context, index) {
           Places place = places.getSafariwalk[index];
           return Padding(
-            padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 12.h),
+            padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 12.h),
             child: PlaceCategoryCard(place: place),
           );
         },

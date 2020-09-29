@@ -26,20 +26,23 @@ class PopularPlacesCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: CachedNetworkImage(
-                imageUrl: place.coverPhoto,
-                height: double.infinity,
-                width: 130.w,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: Colors.grey[200],
-                  highlightColor: Colors.grey[350],
-                  child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5.w),
-                      height: 170.h,
-                      width: 120.w),
-                ),
-              ),
+              child: place.coverPhoto == null
+                  ? Shimmer.fromColors(
+                      baseColor: kDarkPrimaryColor.withOpacity(0.5),
+                      highlightColor: kPrimaryColor.withOpacity(0.5),
+                      child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5.w),
+                          height: 170.h,
+                          width: 120.w),
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: place.coverPhoto,
+                      height: double.infinity,
+                      width: 130.w,
+                      fit: BoxFit.cover,
+                      // placeholder: (context, url) =>
+                      //     Center(child: CircularProgressIndicator())
+                    ),
             ),
             if (isFanFav)
               Positioned(

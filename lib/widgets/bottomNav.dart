@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../screens/homepage.dart';
 import '../screens/profile.dart';
-import '../screens/settings.dart';
+
 import '../screens/trips.dart';
 import '../utils/constants.dart';
 

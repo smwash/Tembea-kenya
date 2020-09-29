@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/widgets/trips/emptyList.dart';
+import '../widgets/trips/emptyList.dart';
 import '../model/place.dart';
 import '../widgets/trips/saveCard.dart';
 import '../model/user.dart';

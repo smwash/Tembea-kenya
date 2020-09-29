@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tembea_user/utils/constants.dart';
-import 'package:tembea_user/widgets/authform/authForm.dart';
-import 'package:tembea_user/widgets/authform/signUpcarousel.dart';
+import '../utils/constants.dart';
+import '../widgets/authform/authForm.dart';
+import '../widgets/authform/signUpcarousel.dart';
 
 class AuthScreen extends StatelessWidget {
   @override
@@ -12,8 +12,8 @@ class AuthScreen extends StatelessWidget {
         children: [
           SignUpCarousel(),
           Positioned(
-            left: 10.w,
-            top: 30.h,
+            left: 20.w,
+            top: 40.h,
             child: CircleAvatar(
               backgroundColor: kPrimaryColor,
               child: IconButton(

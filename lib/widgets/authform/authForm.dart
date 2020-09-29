@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tembea_user/services/authService.dart';
-import 'package:tembea_user/utils/constants.dart';
+import 'package:provider/provider.dart';
+import '../../utils/connectivityEnums.dart';
+import '../../widgets/authform/errorDialog.dart';
+import '../../model/user.dart';
+import '../../services/authService.dart';
+import '../../utils/constants.dart';
+import '../../utils/pageAnimation.dart';
 
+import '../bottomNav.dart';
 import 'loginBtn.dart';
 
 class AuthForm extends StatefulWidget {
@@ -37,9 +43,32 @@ class _AuthFormState extends State<AuthForm> {
             colorText: Colors.black,
             iconColor: Colors.black,
             onPress: () async {
+              var netStatus =
+                  Provider.of<ConnectivityStatus>(context, listen: false);
+
               try {
-                await AuthService().googleSignIn();
-                print('SignedIn');
+                if (netStatus == ConnectivityStatus.Wifi ||
+                    netStatus == ConnectivityStatus.Cellular) {
+                  await AuthService().googleSignIn();
+                  if (AuthService().user != null) {
+                    print('logged in');
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      PageAnimator(
+                        page: BottomNav(),
+                      ),
+                    );
+                  } else
+                    return null;
+                } else if (netStatus == ConnectivityStatus.Offline) {
+                  return showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ErrorDialog();
+                    },
+                  );
+                }
               } catch (error) {
                 print(error);
               }
@@ -81,8 +110,26 @@ class _AuthFormState extends State<AuthForm> {
             icon: MdiIcons.facebook,
             iconColor: Colors.white,
             onPress: () async {
+              var netStatus =
+                  Provider.of<ConnectivityStatus>(context, listen: false);
+
               try {
-                await AuthService().fbLogin();
+                if (netStatus == ConnectivityStatus.Wifi ||
+                    netStatus == ConnectivityStatus.Cellular) {
+                  await AuthService().fbLogin();
+                  if (AuthService().user != null) {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      PageAnimator(
+                        page: BottomNav(),
+                      ),
+                    );
+                  } else
+                    return null;
+                } else
+                  ErrorDialog();
+
                 print('SignedIn');
               } catch (error) {
                 print(error);

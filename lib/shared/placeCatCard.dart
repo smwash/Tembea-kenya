@@ -1,17 +1,37 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:tembea_user/providers/placeProvider.dart';
+import 'package:tembea_user/services/database.dart';
 import '../model/place.dart';
 import '../screens/placeDetail.dart';
 import '../utils/constants.dart';
 import '../utils/pageAnimation.dart';
 import '../utils/stringCapitalizer.dart';
 
-class PlaceCategoryCard extends StatelessWidget {
+class PlaceCategoryCard extends StatefulWidget {
   final Places place;
 
   const PlaceCategoryCard({Key key, @required this.place}) : super(key: key);
+
+  @override
+  _PlaceCategoryCardState createState() => _PlaceCategoryCardState();
+}
+
+class _PlaceCategoryCardState extends State<PlaceCategoryCard> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      PlaceProvider placeProvider =
+          Provider.of<PlaceProvider>(context, listen: false);
+      Database().getPlaceReviews(
+          placeId: widget.place.placeId, placeProvider: placeProvider);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,7 +56,7 @@ class PlaceCategoryCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
-                imageUrl: place.coverPhoto,
+                imageUrl: widget.place.coverPhoto,
                 height: 182.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -55,7 +75,7 @@ class PlaceCategoryCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.location_on, color: kDarkPrimaryColor),
                       Text(
-                        place.name.toString().toLowerCase().capitalize(),
+                        widget.place.name.toString().toLowerCase().capitalize(),
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(16),
                           fontWeight: FontWeight.w600,
@@ -65,7 +85,7 @@ class PlaceCategoryCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    place.description,
+                    widget.place.description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -79,9 +99,16 @@ class PlaceCategoryCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       buildRow(
-                          text: '${place.likes.length} likes',
+                          text: '${widget.place.likes.length} likes',
                           icon: Icons.favorite),
-                      buildRow(text: '4 reviews', icon: Icons.comment),
+                      Consumer<PlaceProvider>(
+                        builder: (context, reviews, _) {
+                          return buildRow(
+                            text: '${reviews.getReviewList.length} reviews',
+                            icon: Icons.comment,
+                          );
+                        },
+                      ),
                     ],
                   ),
                   SizedBox(height: 4.h),
@@ -94,7 +121,7 @@ class PlaceCategoryCard extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         PageAnimator(
-          page: PlaceDetail(place: place),
+          page: PlaceDetail(place: widget.place),
         ),
       ),
     );

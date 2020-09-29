@@ -19,7 +19,7 @@ ThemeData _buildLightTheme() {
     buttonColor: primaryColor,
     indicatorColor: Colors.white,
     toggleableActiveColor: secondaryColor,
-    splashColor: Colors.white60,
+    splashColor: Colors.white,
     splashFactory: InkRipple.splashFactory,
     accentColor: secondaryColor,
     canvasColor: Colors.white,

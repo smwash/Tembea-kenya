@@ -6,7 +6,6 @@ import '../model/place.dart';
 import '../providers/placeProvider.dart';
 import '../services/database.dart';
 import '../shared/categoryAppbar.dart';
-import '../utils/constants.dart';
 
 class NationalParks extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:tembea_user/model/review.dart';
+import '../model/review.dart';
 import '../services/database.dart';
 import '../model/place.dart';
 

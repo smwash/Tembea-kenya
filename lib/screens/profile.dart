@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/widgets/profile/drawer.dart';
+import '.././widgets/profile/drawer.dart';
 
 import '.././model/user.dart';
 import '.././providers/user.dart';
-import '.././services/authService.dart';
+
 import '.././services/database.dart';
 import '.././utils/constants.dart';
 
@@ -22,10 +22,12 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    final user = Provider.of<UserData>(context, listen: false);
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    Database().getUserData(user: user, userProvider: userProvider);
+    Future.delayed(Duration.zero).then((value) {
+      final user = Provider.of<UserData>(context, listen: false);
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      Database().getUserData(user: user, userProvider: userProvider);
+    });
   }
 
   void _openEndDrawer() {
@@ -62,7 +64,9 @@ class _ProfileState extends State<Profile> {
       ),
       endDrawer: SettingsDrawer(),
       endDrawerEnableOpenDragGesture: true,
-      body: userdata == null
+      body: (userdata == null ||
+              userdata.userName == null ||
+              userdata.memberSince == null)
           ? SizedBox.shrink()
           : Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -87,12 +91,14 @@ class _ProfileState extends State<Profile> {
                             ),
                           ],
                         ),
-                        child: CircleAvatar(
-                          radius: ScreenUtil().setSp(40),
-                          backgroundColor: kPrimaryColor,
-                          backgroundImage:
-                              CachedNetworkImageProvider(userdata.userPhoto),
-                        ),
+                        child: userdata.userPhoto == null
+                            ? SizedBox.shrink()
+                            : CircleAvatar(
+                                radius: ScreenUtil().setSp(40),
+                                backgroundColor: kPrimaryColor,
+                                backgroundImage: CachedNetworkImageProvider(
+                                    userdata.userPhoto),
+                              ),
                       ),
                     ),
                     SizedBox(height: 25.h),
@@ -170,7 +176,6 @@ class _ProfileState extends State<Profile> {
       ),
       leading: Icon(icon, color: kDarkPrimaryColor),
       onTap: onPress,
-      //subtitle: Text(subtitle),
     );
   }
 }

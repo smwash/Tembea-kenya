@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea_user/utils/constants.dart';
+import '../../utils/constants.dart';
 import '../../model/place.dart';
 import '../../model/review.dart';
 import '../../providers/placeProvider.dart';
